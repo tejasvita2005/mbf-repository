@@ -1,2 +1,25 @@
-# Created by venv; see https://docs.python.org/3/library/venv.html
-*
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+venv/
+
+# Database
+db.sqlite3
+
+# Node
+node_modules/
+
+# Environment files
+.env
+.env.local
+
+# Next.js
+.next/
+
+# Logs
+*.log
