@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Python
 __pycache__/
 *.pyc
@@ -13,52 +12,40 @@ venv/
 db.sqlite3
 
 # Node
-node_modules/
-
-# Environment files
-.env
-.env.local
-
-# Next.js
-.next/
-
-# Logs
-*.log
-=======
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-# dependencies
 /node_modules
+
+# pnp
 /.pnp
 .pnp.js
 
-# testing
-/coverage
-
-# next.js
+# Next.js
 /.next/
 /out/
 
-# production
+# Build / production
 /build
 
-# misc
+# Testing
+/coverage
+
+# Misc
 .DS_Store
 *.pem
 
-# debug
+# Logs
+*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# local env files
+# Environment files
 .env
+.env.local
 .env*.local
 
-# vercel
+# Vercel
 .vercel
 
-# typescript
+# Typescript / Next types
 *.tsbuildinfo
 next-env.d.ts
->>>>>>> f119e11c61daf29a7c88807f54d314e81d23eef5

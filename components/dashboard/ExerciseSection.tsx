@@ -11,28 +11,16 @@ type Exercise = {
   category: string;
   duration: string;
   reps?: string;
-
-  difficulty: 'Easy' | 'Medium' | 'Hard';
-  description: string;
-  bodyPart: string;
-};
-
-const exercises: Exercise[] = [
-  { id: 'ex1', name: 'Hip Flexor Stretch', category: 'Stretching', duration: '5 min', reps: '3x30s hold', difficulty: 'Easy', description: 'Gentle hip flexor stretch to improve mobility', bodyPart: 'Hip' },
-  { id: 'ex2', name: 'Ankle Circles', category: 'Mobility', duration: '4 min', reps: '2x20 each', difficulty: 'Easy', description: 'Circular ankle rotations for joint mobility', bodyPart: 'Ankle' },
-  { id: 'ex3', name: 'Clamshell Exercise', category: 'Core Strength', duration: '8 min', reps: '3x15 each', difficulty: 'Medium', description: 'Hip abductor strengthening movement', bodyPart: 'Hip/Glute' },
-  { id: 'ex4', name: 'Single Leg Balance', category: 'Balance', duration: '6 min', reps: '3x30s each', difficulty: 'Medium', description: 'Proprioception and balance training', bodyPart: 'Leg' },
-  { id: 'ex5', name: 'Seated Leg Raises', category: 'Strength', duration: '7 min', reps: '3x12', difficulty: 'Easy', description: 'Quadriceps strengthening while seated', bodyPart: 'Quad' },
-  { id: 'ex6', name: 'Shoulder Pendulum', category: 'Recovery', duration: '5 min', reps: '2x2min', difficulty: 'Easy', description: 'Gentle shoulder mobility and decompression', bodyPart: 'Shoulder' },
-  { id: 'ex7', name: 'Glute Bridge', category: 'Core Strength', duration: '10 min', reps: '3x15', difficulty: 'Medium', description: 'Posterior chain activation and strengthening', bodyPart: 'Glute' },
-  { id: 'ex8', name: 'Thoracic Rotation', category: 'Mobility', duration: '6 min', reps: '2x10 each', difficulty: 'Easy', description: 'Upper back mobility improvement', bodyPart: 'Back' },
-
   sets?: string;
+  injuryType?: string;
+
   difficulty: 'Easy' | 'Medium' | 'Hard';
   description: string;
   bodyPart: string;
-  injuryType?: string;
 };
+
+
+ 
 
 const exercises: Exercise[] = [
   { id: 'ex1', name: 'Hip Flexor Stretch', category: 'Stretching', duration: '5 min', reps: '3x30s hold', sets: '3', difficulty: 'Easy', description: 'Gentle hip flexor stretch to improve mobility', bodyPart: 'Hip', injuryType: 'ACL' },

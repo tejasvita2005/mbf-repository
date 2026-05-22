@@ -17,6 +17,9 @@
       - `id` (uuid, PK)
       - `user_id` (uuid, FK to auth.users)
       - `content` (text)
+      - `pain_level` (integer)
+      - `recovery_rating` (integer)
+      - `difficulty` (text)
       - `created_at` (timestamp)
     - `exercise_completions` - Track completed exercises per day
       - `id` (uuid, PK)
@@ -88,8 +91,15 @@ CREATE TABLE IF NOT EXISTS feedback_entries (
   id uuid PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id uuid NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   content text NOT NULL,
+  pain_level integer NOT NULL DEFAULT 5,
+  recovery_rating integer NOT NULL DEFAULT 5,
+  difficulty text NOT NULL DEFAULT 'Medium',
   created_at timestamptz DEFAULT now()
 );
+
+ALTER TABLE feedback_entries ADD COLUMN IF NOT EXISTS pain_level integer NOT NULL DEFAULT 5;
+ALTER TABLE feedback_entries ADD COLUMN IF NOT EXISTS recovery_rating integer NOT NULL DEFAULT 5;
+ALTER TABLE feedback_entries ADD COLUMN IF NOT EXISTS difficulty text NOT NULL DEFAULT 'Medium';
 
 ALTER TABLE feedback_entries ENABLE ROW LEVEL SECURITY;
 
