@@ -24,11 +24,20 @@ export function FeedbackForm() {
     if (!user || !content.trim()) return;
     setStatus('saving');
     try {
-      const { error } = await supabase.from('feedback_entries').insert({
-        user_id: user.id,
-        content: content.trim(),
-      });
-      if (error) throw error;
+      const response = await fetch('http://127.0.0.1:8000/api/feedbacks/', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({
+    content: content.trim(),
+  }),
+});
+
+if (!response.ok) {
+  throw new Error('Failed to save');
+}
+      
       setStatus('success');
       setContent('');
       setTimeout(() => setStatus('idle'), 3000);
