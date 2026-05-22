@@ -11,6 +11,7 @@ type Exercise = {
   category: string;
   duration: string;
   reps?: string;
+
   difficulty: 'Easy' | 'Medium' | 'Hard';
   description: string;
   bodyPart: string;
@@ -25,6 +26,24 @@ const exercises: Exercise[] = [
   { id: 'ex6', name: 'Shoulder Pendulum', category: 'Recovery', duration: '5 min', reps: '2x2min', difficulty: 'Easy', description: 'Gentle shoulder mobility and decompression', bodyPart: 'Shoulder' },
   { id: 'ex7', name: 'Glute Bridge', category: 'Core Strength', duration: '10 min', reps: '3x15', difficulty: 'Medium', description: 'Posterior chain activation and strengthening', bodyPart: 'Glute' },
   { id: 'ex8', name: 'Thoracic Rotation', category: 'Mobility', duration: '6 min', reps: '2x10 each', difficulty: 'Easy', description: 'Upper back mobility improvement', bodyPart: 'Back' },
+
+  sets?: string;
+  difficulty: 'Easy' | 'Medium' | 'Hard';
+  description: string;
+  bodyPart: string;
+  injuryType?: string;
+};
+
+const exercises: Exercise[] = [
+  { id: 'ex1', name: 'Hip Flexor Stretch', category: 'Stretching', duration: '5 min', reps: '3x30s hold', sets: '3', difficulty: 'Easy', description: 'Gentle hip flexor stretch to improve mobility', bodyPart: 'Hip', injuryType: 'ACL' },
+  { id: 'ex2', name: 'Ankle Circles', category: 'Mobility', duration: '4 min', reps: '2x20 each', sets: '2', difficulty: 'Easy', description: 'Circular ankle rotations for joint mobility', bodyPart: 'Ankle', injuryType: 'ACL' },
+  { id: 'ex3', name: 'Clamshell Exercise', category: 'Core Strength', duration: '8 min', reps: '3x15 each', sets: '3', difficulty: 'Medium', description: 'Hip abductor strengthening movement', bodyPart: 'Hip/Glute', injuryType: 'ACL' },
+  { id: 'ex4', name: 'Single Leg Balance', category: 'Balance', duration: '6 min', reps: '3x30s each', sets: '3', difficulty: 'Medium', description: 'Proprioception and balance training', bodyPart: 'Leg', injuryType: 'ACL' },
+  { id: 'ex5', name: 'Seated Leg Raises', category: 'Strength', duration: '7 min', reps: '3x12', sets: '3', difficulty: 'Easy', description: 'Quadriceps strengthening while seated', bodyPart: 'Quad', injuryType: 'ACL' },
+  { id: 'ex6', name: 'Shoulder Pendulum', category: 'Recovery', duration: '5 min', reps: '2x2min', sets: '2', difficulty: 'Easy', description: 'Gentle shoulder mobility and decompression', bodyPart: 'Shoulder', injuryType: 'Shoulder' },
+  { id: 'ex7', name: 'Glute Bridge', category: 'Core Strength', duration: '10 min', reps: '3x15', sets: '3', difficulty: 'Medium', description: 'Posterior chain activation and strengthening', bodyPart: 'Glute', injuryType: 'Back Pain' },
+  { id: 'ex8', name: 'Thoracic Rotation', category: 'Mobility', duration: '6 min', reps: '2x10 each', sets: '2', difficulty: 'Easy', description: 'Upper back mobility improvement', bodyPart: 'Back', injuryType: 'Back Pain' },
+
 ];
 
 const categoryColors: Record<string, string> = {
@@ -163,10 +182,28 @@ export function ExerciseSection() {
                       <RefreshCw className="w-3 h-3" /> {exercise.reps}
                     </span>
                   )}
+
+
+                  {exercise.sets && (
+                    <span className="flex items-center gap-1 text-[10px] text-slate-500">
+                      {exercise.sets} sets
+                    </span>
+                  )}
+
                   <span className={`text-[10px] font-medium ${difficultyColors[exercise.difficulty]}`}>
                     {exercise.difficulty}
                   </span>
                 </div>
+
+
+                {exercise.injuryType && (
+                  <div className="mt-1">
+                    <span className="text-[10px] text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded">
+                      {exercise.injuryType}
+                    </span>
+                  </div>
+                )}
+
               </div>
 
               <div className="shrink-0 text-xs text-slate-500 bg-white/5 px-2 py-1 rounded-lg">

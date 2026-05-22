@@ -156,6 +156,15 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
+<<<<<<< HEAD
+=======
+          <div className="flex items-center justify-between mt-4">
+            <Link href="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
+              Forgot Password?
+            </Link>
+          </div>
+
+>>>>>>> f119e11c61daf29a7c88807f54d314e81d23eef5
           <p className="text-center text-sm text-slate-400 mt-6">
             Don&apos;t have an account?{' '}
             <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
