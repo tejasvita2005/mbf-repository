@@ -4,7 +4,9 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
-import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight } from 'lucide-react';
+
+import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Brain } from 'lucide-react';
+
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Dashboard', href: '/dashboard', section: 'overview' },
@@ -13,6 +15,10 @@ const navItems = [
   { icon: Calendar, label: 'Calendar', href: '/dashboard?tab=calendar', section: 'calendar' },
   { icon: TrendingUp, label: 'Progress', href: '/dashboard?tab=progress', section: 'progress' },
   { icon: MessageSquare, label: 'Feedback', href: '/dashboard?tab=feedback', section: 'feedback' },
+
+  { icon: Brain, label: 'AI Recommendations', href: '/ai-recommendation', section: 'ai-recommendation' },
+  { icon: Dumbbell, label: 'My Workouts', href: '/workouts', section: 'workouts' },
+
 ];
 
 function getInitials(firstName: string, lastName: string, email: string): string {
@@ -39,7 +45,11 @@ export function Sidebar({ activeSection = 'overview', onSectionChange }: Sidebar
   const handleNav = (section: string, href: string) => {
     onSectionChange?.(section);
     setMobileOpen(false);
+
     if (href === '/dashboard') router.push(href);
+
+    if (href) router.push(href);
+
   };
 
   const handleLogout = async () => {

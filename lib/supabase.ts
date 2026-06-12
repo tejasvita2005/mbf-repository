@@ -25,6 +25,9 @@ export type FeedbackEntry = {
   id: string;
   user_id: string;
   content: string;
+  pain_level: number;
+  recovery_rating: number;
+  difficulty: string;
   created_at: string;
 };
 

@@ -12,14 +12,40 @@ venv/
 db.sqlite3
 
 # Node
-node_modules/
+/node_modules
+
+# pnp
+/.pnp
+.pnp.js
+
+# Next.js
+/.next/
+/out/
+
+# Build / production
+/build
+
+# Testing
+/coverage
+
+# Misc
+.DS_Store
+*.pem
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # Environment files
 .env
 .env.local
+.env*.local
 
-# Next.js
-.next/
+# Vercel
+.vercel
 
-# Logs
-*.log
+# Typescript / Next types
+*.tsbuildinfo
+next-env.d.ts

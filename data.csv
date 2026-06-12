@@ -1,0 +1,8 @@
+injury,age,fitness_level,pain_level,recovery_stage,recommended_exercise
+ACL,22,Beginner,5,Early,Squat
+ACL,25,Intermediate,3,Mid,Step Up
+ACL,28,Advanced,2,Late,Lunges
+Achilles,30,Beginner,6,Early,Heel Raise
+Achilles,28,Advanced,2,Late,Toe Walk
+Meniscus,35,Beginner,4,Mid,Wall Sit
+Meniscus,26,Intermediate,3,Late,Hamstring Curl

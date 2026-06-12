@@ -189,20 +189,11 @@ function OverviewSection({ firstName, initials }: { firstName: string; initials:
         <VideoSection />
       </div>
 
-      {/* Bottom row: progress + mood + feedback */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="animate-fade-in-up stagger-5">
-          <ProgressSection />
-        </div>
-        <div className="space-y-5 animate-fade-in-up stagger-6">
-          <MoodTracker />
-          <FeedbackForm />
-        </div>
-        <div className="animate-fade-in-up stagger-7">
-          <RecoverySummaryCard />
+      <div className="animate-fade-in-up stagger-7">
+                  <RecoverySummaryCard />
         </div>
       </div>
-    </div>
+      
   );
 }
 
