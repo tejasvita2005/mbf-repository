@@ -5,8 +5,6 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
 
-import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight } from 'lucide-react';
-
 import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Brain } from 'lucide-react';
 
 

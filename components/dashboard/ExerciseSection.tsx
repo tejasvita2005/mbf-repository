@@ -17,11 +17,15 @@ type Exercise = {
   duration: string;
   reps?: string;
   sets?: string;
+  injuryType?: string;
+
   difficulty: 'Easy' | 'Medium' | 'Hard';
   description: string;
   bodyPart: string;
-  injuryType?: string;
 };
+
+
+ 
 
 const exercises: Exercise[] = [
   {

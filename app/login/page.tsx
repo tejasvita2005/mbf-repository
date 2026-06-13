@@ -76,6 +76,8 @@ export default function LoginPage() {
 
           {error && (
             <div className="mb-4 p-3 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center gap-2 text-red-400 text-sm animate-slide-down">
+
+              
               <AlertCircle className="w-4 h-4 shrink-0" />
               {error}
             </div>
@@ -156,15 +158,11 @@ export default function LoginPage() {
             Continue with Google
           </button>
 
-<<<<<<< HEAD
-=======
           <div className="flex items-center justify-between mt-4">
             <Link href="/forgot-password" className="text-sm text-cyan-400 hover:text-cyan-300 font-medium transition-colors">
               Forgot Password?
             </Link>
           </div>
-
->>>>>>> f119e11c61daf29a7c88807f54d314e81d23eef5
           <p className="text-center text-sm text-slate-400 mt-6">
             Don&apos;t have an account?{' '}
             <Link href="/signup" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors">

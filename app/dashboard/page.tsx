@@ -274,6 +274,7 @@ function OverviewSection({
         <VideoSection />
       </div>
 
+<<<<<<< HEAD
       {/* Bottom row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 animate-fade-in-up stagger-5">
@@ -284,9 +285,13 @@ function OverviewSection({
           <MoodTracker />
 
           <RecoverySummaryCard />
+=======
+      <div className="animate-fade-in-up stagger-7">
+                  <RecoverySummaryCard />
+>>>>>>> 9d00b7db9efe991f0e003d98d614781a68ef4b81
         </div>
       </div>
-    </div>
+      
   );
 }
 

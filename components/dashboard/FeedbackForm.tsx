@@ -1,20 +1,12 @@
 'use client';
 
-
-import { useState } from 'react';
-import { useAuth } from '@/components/providers/AuthProvider';
-import { supabase } from '@/lib/supabase';
-import { MessageSquare, Send, CircleCheck as CheckCircle2, CircleAlert as AlertCircle } from 'lucide-react';
-
-const MAX_CHARS = 500;
-
 import { useState, useEffect } from 'react';
+import { MessageSquare, CheckCircle2, AlertCircle, Send, Trash2 } from 'lucide-react';
 import { useAuth } from '@/components/providers/AuthProvider';
 import { supabase } from '@/lib/supabase';
-import { MessageSquare, Send, CircleCheck as CheckCircle2, CircleAlert as AlertCircle, Trash2 } from 'lucide-react';
 
-const MAX_CHARS = 500;
 const FEEDBACK_STORAGE_KEY = 'mbf_feedback_history';
+const MAX_CHARS = 1000;
 
 export type Feedback = {
   id: string;
@@ -24,7 +16,6 @@ export type Feedback = {
   comments: string;
   timestamp: number;
 };
-
 
 const prompts = [
   "How did today's exercises feel?",
@@ -36,33 +27,6 @@ const prompts = [
 export function FeedbackForm() {
   const { user } = useAuth();
   const [content, setContent] = useState('');
-
-  const [status, setStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user || !content.trim()) return;
-    setStatus('saving');
-    try {
-      const response = await fetch('http://127.0.0.1:8000/api/feedbacks/', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    content: content.trim(),
-  }),
-});
-
-if (!response.ok) {
-  throw new Error('Failed to save');
-}
-      
-      setStatus('success');
-      setContent('');
-      setTimeout(() => setStatus('idle'), 3000);
-    } catch {
-
   const [painLevel, setPainLevel] = useState(5);
   const [recoveryRating, setRecoveryRating] = useState(5);
   const [difficulty, setDifficulty] = useState('Medium');
@@ -70,21 +34,77 @@ if (!response.ok) {
   const [feedbackHistory, setFeedbackHistory] = useState<Feedback[]>([]);
   const [showHistory, setShowHistory] = useState(true);
 
-  // Load feedback from localStorage on mount
+  // Load feedback from localStorage and Supabase on mount
   useEffect(() => {
-    const loadFeedback = () => {
+    const loadFeedback = async () => {
+      let storedHistory: Feedback[] = [];
+
       try {
         const stored = localStorage.getItem(FEEDBACK_STORAGE_KEY);
         if (stored) {
-          setFeedbackHistory(JSON.parse(stored));
+          storedHistory = JSON.parse(stored);
+          setFeedbackHistory(storedHistory);
         }
       } catch (error) {
         console.error('Error loading feedback history:', error);
       }
+
+      if (!user) return;
+
+      console.log('FeedbackForm loadFeedback user:', {
+        id: user.id,
+        email: user.email,
+        role: user.role,
+      });
+
+      try {
+        const { data, error, status, statusText } = await supabase
+          .from('feedback_entries')
+          .select('id, content, pain_level, recovery_rating, difficulty, created_at')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false });
+
+        console.log('FeedbackForm load response:', {
+          status,
+          statusText,
+          data,
+          error,
+        });
+
+        if (error) {
+          console.error('Error fetching saved feedback:', error);
+          return;
+        }
+
+        if (!data) return;
+
+        const savedFeedback = data.map((entry) => ({
+          id: entry.id,
+          painLevel: entry.pain_level ?? 5,
+          recoveryRating: entry.recovery_rating ?? 5,
+          difficulty: entry.difficulty ?? 'Medium',
+          comments: entry.content ?? '',
+          timestamp: entry.created_at ? new Date(entry.created_at).getTime() : Date.now(),
+        }));
+
+        const mergedFeedback = [...savedFeedback, ...storedHistory].reduce<Feedback[]>((result, item) => {
+          if (!result.some((existing) => existing.id === item.id)) {
+            result.push(item);
+          }
+          return result;
+        }, []);
+
+        if (mergedFeedback.length > 0) {
+          setFeedbackHistory(mergedFeedback);
+          localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(mergedFeedback));
+        }
+      } catch (error) {
+        console.error('Error syncing feedback from Supabase:', error);
+      }
     };
-    
+
     loadFeedback();
-  }, []);
+  }, [user]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -114,13 +134,34 @@ if (!response.ok) {
         timestamp: Date.now(),
       };
 
-      // Save to Supabase
-      const { error } = await supabase.from('feedback_entries').insert({
+      const payload = {
         user_id: user.id,
         content: content.trim(),
         pain_level: painLevel,
         recovery_rating: recoveryRating,
         difficulty: difficulty,
+      };
+
+      console.log('FeedbackForm submit:', {
+        user: {
+          id: user.id,
+          email: user.email,
+          role: user.role,
+        },
+        payload,
+      });
+
+      // Save to Supabase
+      const { data: insertData, error, status, statusText } = await supabase
+        .from('feedback_entries')
+        .insert(payload)
+        .select();
+
+      console.log('FeedbackForm insert response:', {
+        status,
+        statusText,
+        data: insertData,
+        error,
       });
 
       if (error) throw error;
@@ -137,95 +178,11 @@ if (!response.ok) {
       setDifficulty('Medium');
       setTimeout(() => setStatus('idle'), 3000);
     } catch (error) {
-      console.error('Error saving feedback:', error);
-
+      console.error('FeedbackForm save exception:', error);
       setStatus('error');
       setTimeout(() => setStatus('idle'), 3000);
     }
   };
-
-
-  const remaining = MAX_CHARS - content.length;
-  const isOverLimit = remaining < 0;
-
-  return (
-    <div className="glass rounded-2xl border border-white/7 p-5">
-      <div className="flex items-center gap-3 mb-5">
-        <div className="w-9 h-9 rounded-xl bg-blue-500/10 flex items-center justify-center">
-          <MessageSquare className="w-4.5 h-4.5 w-[18px] h-[18px] text-blue-400" />
-        </div>
-        <div>
-          <h2 className="text-base font-semibold text-white">Wellness Feedback</h2>
-          <p className="text-xs text-slate-500">Share your daily wellness notes</p>
-        </div>
-      </div>
-
-      {/* Prompt suggestions */}
-      <div className="mb-4">
-        <p className="text-[10px] text-slate-600 uppercase tracking-wider mb-2">Quick prompts</p>
-        <div className="flex flex-wrap gap-1.5">
-          {prompts.map(prompt => (
-            <button
-              key={prompt}
-              onClick={() => setContent(prev => prev ? prev + ' ' + prompt : prompt)}
-              className="text-[10px] px-2 py-1 bg-white/5 hover:bg-white/10 border border-white/5 hover:border-white/15 text-slate-400 hover:text-white rounded-lg transition-all"
-            >
-              {prompt}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      <form onSubmit={handleSubmit}>
-        <div className="relative mb-3">
-          <textarea
-            value={content}
-            onChange={e => setContent(e.target.value)}
-            placeholder="How are you feeling today? Share your recovery progress, any pain levels, or notes for your therapist..."
-            rows={4}
-            maxLength={MAX_CHARS + 20}
-            className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-slate-600 text-sm focus:outline-none focus:border-cyan-500/30 focus:bg-cyan-500/3 transition-all resize-none"
-          />
-        </div>
-
-        <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center gap-2">
-            {status === 'success' && (
-              <div className="flex items-center gap-1.5 text-emerald-400 text-xs animate-slide-down">
-                <CheckCircle2 className="w-3.5 h-3.5" />
-                Feedback saved!
-              </div>
-            )}
-            {status === 'error' && (
-              <div className="flex items-center gap-1.5 text-red-400 text-xs animate-slide-down">
-                <AlertCircle className="w-3.5 h-3.5" />
-                Failed to save
-              </div>
-            )}
-          </div>
-          <span className={`text-xs ${isOverLimit ? 'text-red-400' : remaining < 50 ? 'text-yellow-400' : 'text-slate-500'}`}>
-            {remaining} chars left
-          </span>
-        </div>
-
-        <button
-          type="submit"
-          disabled={!content.trim() || isOverLimit || status === 'saving'}
-          className="w-full bg-gradient-to-r from-cyan-500/20 to-teal-500/20 hover:from-cyan-500/30 hover:to-teal-500/30 border border-cyan-500/20 hover:border-cyan-500/40 disabled:opacity-40 disabled:cursor-not-allowed text-cyan-300 font-medium py-2.5 rounded-xl transition-all duration-300 flex items-center justify-center gap-2 text-sm"
-        >
-          {status === 'saving' ? (
-            <>
-              <div className="w-4 h-4 border-2 border-cyan-300/30 border-t-cyan-300 rounded-full animate-spin" />
-              Saving...
-            </>
-          ) : (
-            <>
-              <Send className="w-4 h-4" />
-              Submit Feedback
-            </>
-          )}
-        </button>
-      </form>
 
   const deleteFeedback = (id: string) => {
     const updatedHistory = feedbackHistory.filter(f => f.id !== id);
@@ -445,7 +402,6 @@ if (!response.ok) {
           )}
         </div>
       )}
-
     </div>
   );
 }

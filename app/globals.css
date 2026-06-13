@@ -178,6 +178,7 @@
 .progress-bar {
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
+<<<<<<< HEAD
 
 
 
@@ -204,3 +205,6 @@
   }
 }
 
+=======
+
+>>>>>>> 9d00b7db9efe991f0e003d98d614781a68ef4b81
