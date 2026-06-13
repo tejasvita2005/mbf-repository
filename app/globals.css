@@ -178,8 +178,8 @@
 .progress-bar {
   transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
 }
-<<<<<<< HEAD
-=======
+
+
 
 @layer base {
   /* Ensure native select dropdowns use a dark background and light text in dark mode */
@@ -203,4 +203,4 @@
     color: #e6fbff;
   }
 }
->>>>>>> f119e11c61daf29a7c88807f54d314e81d23eef5
+

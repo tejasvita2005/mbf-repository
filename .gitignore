@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # Python
 __pycache__/
 *.pyc
@@ -24,7 +24,6 @@ node_modules/
 
 # Logs
 *.log
-=======
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
 # dependencies
@@ -61,4 +60,3 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
->>>>>>> f119e11c61daf29a7c88807f54d314e81d23eef5
