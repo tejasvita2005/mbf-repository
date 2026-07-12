@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/AuthProvider';
 
-import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Brain } from 'lucide-react';
+import { Activity, LayoutDashboard, Dumbbell, SquarePlay as PlaySquare, Calendar, TrendingUp, MessageSquare, Settings, LogOut, Menu, X, ChevronRight, Brain, ScanLine } from 'lucide-react';
 
 
 const navItems = [
@@ -18,6 +18,7 @@ const navItems = [
 
   { icon: Brain, label: 'AI Recommendations', href: '/ai-recommendation', section: 'ai-recommendation' },
   { icon: Dumbbell, label: 'My Workouts', href: '/workouts', section: 'workouts' },
+  { icon: ScanLine, label: 'AI Posture Detection', href: '/posture-detection', section: 'posture-detection' },
 
 ];
 
