@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/components/providers/AuthProvider';
+import { useAuth, DEMO_MODE } from '@/components/providers/AuthProvider';
 import { Sidebar } from '@/components/layout/Sidebar';
 import { useMyWorkouts } from '@/hooks/useMyWorkouts';
 import { useFeedbackHistory } from '@/hooks/useFeedbackHistory';
@@ -69,8 +69,7 @@ export default function AIRecommendationPage() {
     setIsLoading(true);
 
     try {
-      const session = await (await import('@/lib/supabase')).supabase.auth.getSession();
-      const token = session.data.session?.access_token;
+      const token = DEMO_MODE ? 'demo-token' : (await (await import('@/lib/supabase')).supabase.auth.getSession()).data.session?.access_token;
 
       if (!token) {
         throw new Error('Not authenticated');
