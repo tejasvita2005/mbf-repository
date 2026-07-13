@@ -9,3 +9,10 @@ class WorkoutSerializer(serializers.ModelSerializer):
         model = WorkoutPlan
         fields = '__all__'
         read_only_fields = ['user']
+from .models import WorkoutPlan, PostureResult
+
+class PostureResultSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PostureResult
+        fields = "__all__"
+        read_only_fields = ["user"]
