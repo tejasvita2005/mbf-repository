@@ -23,6 +23,7 @@ INSTALLED_APPS = [
     'feedbacks',
     'users',
     'workouts',
+    'posture',
 ]
 
 MIDDLEWARE = [
