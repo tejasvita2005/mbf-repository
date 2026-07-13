@@ -4,6 +4,47 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase, Profile } from '@/lib/supabase';
 
+export const DEMO_MODE = true; // Set to false to restore normal Supabase authentication.
+const DEMO_USER_ID = 'demo-user-0001';
+const DEMO_USER = {
+  id: DEMO_USER_ID,
+  app_metadata: {},
+  user_metadata: { first_name: 'Alex', last_name: 'Taylor' },
+  aud: 'authenticated',
+  role: 'authenticated',
+  email: 'demo@mbfitness.com',
+  phone: null,
+  confirmed_at: new Date().toISOString(),
+  created_at: new Date().toISOString(),
+  last_sign_in_at: new Date().toISOString(),
+  identities: [],
+  factor_totp_enabled: false,
+  email_confirmed_at: new Date().toISOString(),
+  phone_confirmed_at: null,
+  raw_user_meta_data: {},
+  updated_at: new Date().toISOString(),
+  instance_id: '',
+} as unknown as User;
+
+const DEMO_SESSION = {
+  access_token: 'demo-token',
+  token_type: 'bearer',
+  expires_in: 3600,
+  refresh_token: 'demo-refresh-token',
+  provider_token: null,
+  provider_refresh_token: null,
+  expires_at: Math.floor(Date.now() / 1000) + 3600,
+  user: DEMO_USER,
+} as Session;
+
+const DEMO_PROFILE: Profile = {
+  id: DEMO_USER_ID,
+  first_name: 'Alex',
+  last_name: 'Taylor',
+  avatar_url: '',
+  updated_at: new Date().toISOString(),
+};
+
 type AuthContextType = {
   user: User | null;
   session: Session | null;
@@ -38,17 +79,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const refreshProfile = async () => {
-    if (user) await fetchProfile(user.id);
+    if (user && !DEMO_MODE) await fetchProfile(user.id);
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    if (!DEMO_MODE) await supabase.auth.signOut();
     setUser(null);
     setSession(null);
     setProfile(null);
   };
 
   useEffect(() => {
+    if (DEMO_MODE) {
+      setSession(DEMO_SESSION);
+      setUser(DEMO_USER);
+      setProfile(DEMO_PROFILE);
+      setLoading(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
