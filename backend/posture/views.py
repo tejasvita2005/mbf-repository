@@ -5,7 +5,7 @@ from rest_framework.response import Response
 import subprocess
 import os
 import sys
-
+import json
 # Global process
 camera_process = None
 
@@ -76,8 +76,32 @@ def stop_camera(request):
 @permission_classes([IsAuthenticated])
 def posture_metrics(request):
 
-    return Response(current_metrics)
+    BASE_DIR = os.path.dirname(
+        os.path.dirname(
+            os.path.dirname(__file__)
+        )
+    )
 
+    metrics_file = os.path.abspath(
+        os.path.join(
+            BASE_DIR,
+            "..",
+            "ai",
+            "live_metrics.json"
+        )
+    )
+
+    if os.path.exists(metrics_file):
+
+        with open(metrics_file, "r") as f:
+
+            data = json.load(f)
+
+        return Response(data)
+
+    return Response({
+        "status": "waiting"
+    })
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])
