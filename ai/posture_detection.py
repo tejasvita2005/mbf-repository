@@ -6,6 +6,7 @@ import math
 import json
 import os
 import time
+import requests
 engine = pyttsx3.init()
 engine.setProperty("rate", 165)
 last_feedback = ""
@@ -280,12 +281,27 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,0), 2)
             cv2.putText(frame, f"Right Angle: {int(right_angle)}", (20,290),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,0), 2)
+            try:
+                requests.post(
+                    "http://127.0.0.1:8000/api/posture/update/",
+                    json={
+                    "reps": counter,
+                    "accuracy": 95,
+                    "feedback": feedback,
+                    "stage": stage,
+                    "valid_form": valid_form
+                    },
+                     timeout=0.2
+                )
+            except Exception:
+                pass
+
             save_metrics(
-    counter,
-    feedback,
-    stage,
-    valid_form
-)    
+                counter,
+                feedback,
+                stage,
+                valid_form
+            )    
         
     cv2.imshow(
         "MB Fitness Shoulder Raise Detection",
