@@ -3,9 +3,16 @@ import mediapipe as mp
 import pyttsx3
 import threading
 import math
+import json
+import os
+import time
 engine = pyttsx3.init()
 engine.setProperty("rate", 165)
 last_feedback = ""
+METRICS_FILE = os.path.join(
+    os.path.dirname(__file__),
+    "live_metrics.json"
+)
 def speak(text):
     engine.say(text)
     engine.runAndWait()
@@ -33,7 +40,20 @@ def calculate_angle(a, b, c):
     if angle > 180:
         angle = 360-angle
     return angle
+def save_metrics(counter, feedback, stage, valid_form):
 
+    accuracy = 100 if valid_form else 70
+
+    data = {
+        "reps": counter,
+        "accuracy": accuracy,
+        "feedback": feedback,
+        "stage": stage,
+        "timestamp": time.time()
+    }
+
+    with open(METRICS_FILE, "w") as f:
+        json.dump(data, f)
 
 # -----------------------------
 # MediaPipe Pose
@@ -260,6 +280,13 @@ while True:
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,0), 2)
             cv2.putText(frame, f"Right Angle: {int(right_angle)}", (20,290),
                         cv2.FONT_HERSHEY_SIMPLEX, 0.8, (255,255,0), 2)
+            save_metrics(
+    counter,
+    feedback,
+    stage,
+    valid_form
+)    
+        
     cv2.imshow(
         "MB Fitness Shoulder Raise Detection",
         frame
