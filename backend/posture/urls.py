@@ -1,14 +1,10 @@
 from django.urls import path
-from .views import (
-    start_camera,
-    stop_camera,
-    posture_metrics,
-    posture_stream,
-)
+from . import views
 
 urlpatterns = [
-    path("start/", start_camera, name="start_camera"),
-    path("stop/", stop_camera, name="stop_camera"),
-    path("metrics/", posture_metrics, name="posture_metrics"),
-    path("stream/", posture_stream, name="posture_stream"),
+    path("start/", views.start_camera, name="start_camera"),
+    path("stop/", views.stop_camera, name="stop_camera"),
+    path("metrics/", views.posture_metrics, name="posture_metrics"),
+    path("stream/", views.posture_stream, name="posture_stream"),
+    path("update/", views.update_metrics, name="update_metrics"),
 ]

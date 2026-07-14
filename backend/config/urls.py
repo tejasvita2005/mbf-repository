@@ -22,6 +22,7 @@ urlpatterns = [
 
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
+   
 ]
 
 urlpatterns += static(
