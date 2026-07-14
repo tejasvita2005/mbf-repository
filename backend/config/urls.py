@@ -18,10 +18,11 @@ urlpatterns = [
     path('api/feedbacks/', include('feedbacks.urls')),
     path('api/users/', include('users.urls')),
 
+    path('api/posture/', include('posture.urls')),   # ← Add this line
+
     path('api/token/', TokenObtainPairView.as_view()),
     path('api/token/refresh/', TokenRefreshView.as_view()),
 ]
-
 
 urlpatterns += static(
     settings.MEDIA_URL,
